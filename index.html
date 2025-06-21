@@ -4,21 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Content Summarizer</title>
+    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Gradient background for header and highlights */
         .gradient-bg {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
+        /* Video preview aspect ratio and background */
         .video-preview {
             aspect-ratio: 16/9;
             background-color: #f3f4f6;
         }
+        /* Summary box scroll and size */
         .summary-box {
             min-height: 200px;
             max-height: 400px;
             overflow-y: auto;
         }
+        /* Spinner for loading state */
         .loading-spinner {
             border: 4px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
@@ -31,21 +37,26 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        /* File upload hover effect */
         .file-upload:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
 <body class="min-h-screen bg-gray-50">
+    <!-- ================= HEADER SECTION ================= -->
     <div class="gradient-bg text-white">
         <div class="container mx-auto px-4 py-12">
             <div class="flex flex-col items-center">
                 <h1 class="text-4xl font-bold mb-2 text-center">Video Content Summarizer</h1>
                 <p class="text-xl text-center max-w-2xl mb-8">Get concise summaries of your video content in seconds</p>
 
+                <!-- ========== MAIN APP CARD ========== -->
                 <div class="w-full max-w-4xl bg-white/10 backdrop-blur-sm rounded-xl p-6 shadow-lg">
                     <div class="flex flex-col md:flex-row gap-6">
+                        <!-- ========== LEFT: INPUTS ========== -->
                         <div class="flex-1">
+                            <!-- Video Source Tabs -->
                             <div class="mb-4">
                                 <label class="block text-sm font-medium mb-2">Video Source</label>
                                 <div class="flex space-x-2">
@@ -54,6 +65,7 @@
                                 </div>
                             </div>
 
+                            <!-- URL Input Section -->
                             <div id="urlInputSection" class="mb-6">
                                 <label for="videoUrl" class="block text-sm font-medium mb-2">Video URL</label>
                                 <div class="flex">
@@ -64,6 +76,7 @@
                                 </div>
                             </div>
 
+                            <!-- Upload Input Section (hidden by default) -->
                             <div id="uploadInputSection" class="mb-6 hidden">
                                 <label class="block text-sm font-medium mb-2">Upload Video</label>
                                 <div class="file-upload border-2 border-dashed border-white/30 rounded-lg p-8 text-center cursor-pointer hover:bg-white/10 transition">
@@ -77,6 +90,7 @@
                                 <div id="fileName" class="text-sm mt-2 hidden"></div>
                             </div>
 
+                            <!-- Summary Type Selection -->
                             <div class="mb-6">
                                 <label for="summaryType" class="block text-sm font-medium mb-2">Summary Type</label>
                                 <select id="summaryType" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/50">
@@ -87,6 +101,7 @@
                                 </select>
                             </div>
 
+                            <!-- Summary Length Slider -->
                             <div class="mb-6">
                                 <label for="summaryLength" class="block text-sm font-medium mb-2">Summary Length</label>
                                 <div class="flex items-center">
@@ -95,12 +110,16 @@
                                 </div>
                             </div>
 
+                            <!-- Generate Summary Button -->
                             <button id="summarizeBtn" class="w-full py-3 bg-blue-500 hover:bg-blue-600 rounded-lg font-medium flex items-center justify-center">
                                 <i class="fas fa-magic mr-2"></i> Generate Summary
                             </button>
                         </div>
+                        <!-- ========== END LEFT ========== -->
 
+                        <!-- ========== RIGHT: PREVIEW & SUMMARY ========== -->
                         <div class="flex-1">
+                            <!-- Video Preview Area -->
                             <div class="video-preview rounded-lg overflow-hidden mb-4 flex items-center justify-center">
                                 <div class="text-center p-4">
                                     <i class="fas fa-video text-4xl opacity-30 mb-2"></i>
@@ -108,6 +127,7 @@
                                 </div>
                             </div>
 
+                            <!-- Summary Output Area -->
                             <div class="bg-white/10 rounded-lg p-4">
                                 <div class="flex justify-between items-center mb-2">
                                     <h3 class="font-medium">Summary</h3>
@@ -120,16 +140,20 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- ========== END RIGHT ========== -->
                     </div>
                 </div>
+                <!-- ========== END MAIN APP CARD ========== -->
             </div>
         </div>
     </div>
+    <!-- ================= END HEADER SECTION ================= -->
 
+    <!-- ================= HOW IT WORKS SECTION ================= -->
     <div class="container mx-auto px-4 py-12">
         <h2 class="text-2xl font-bold text-center mb-8">How It Works</h2>
-
         <div class="grid md:grid-cols-3 gap-8">
+            <!-- Step 1 -->
             <div class="bg-white p-6 rounded-xl shadow-md">
                 <div class="w-12 h-12 gradient-bg rounded-full flex items-center justify-center text-white mb-4">
                     <i class="fas fa-link text-xl"></i>
@@ -137,7 +161,7 @@
                 <h3 class="font-bold text-lg mb-2">1. Provide Video</h3>
                 <p class="text-gray-600">Enter a video URL from YouTube, Vimeo, or other platforms, or upload your own video file.</p>
             </div>
-
+            <!-- Step 2 -->
             <div class="bg-white p-6 rounded-xl shadow-md">
                 <div class="w-12 h-12 gradient-bg rounded-full flex items-center justify-center text-white mb-4">
                     <i class="fas fa-sliders-h text-xl"></i>
@@ -145,7 +169,7 @@
                 <h3 class="font-bold text-lg mb-2">2. Customize Summary</h3>
                 <p class="text-gray-600">Choose your preferred summary format and length to get exactly what you need.</p>
             </div>
-
+            <!-- Step 3 -->
             <div class="bg-white p-6 rounded-xl shadow-md">
                 <div class="w-12 h-12 gradient-bg rounded-full flex items-center justify-center text-white mb-4">
                     <i class="fas fa-file-alt text-xl"></i>
@@ -155,7 +179,9 @@
             </div>
         </div>
     </div>
+    <!-- ================= END HOW IT WORKS SECTION ================= -->
 
+    <!-- ================= FOOTER SECTION ================= -->
     <footer class="bg-gray-800 text-white py-8">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -170,19 +196,25 @@
                 </div>
             </div>
             <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400 text-sm">
-                <p>© 2023 Video Content Summarizer. All rights reserved.</p>
+                <p>© <span id="currentYear"></span> Video Content Summarizer. All rights reserved.</p>
+                <script>
+                    document.getElementById('currentYear').textContent = new Date().getFullYear();
+                </script>
             </div>
         </div>
     </footer>
+    <!-- ================= END FOOTER SECTION ================= -->
 
+    <!-- ================= MAIN SCRIPT ================= -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Tab switching
+            // --- Tab switching logic: Switch between URL and Upload tabs ---
             const urlTab = document.getElementById('urlTab');
             const uploadTab = document.getElementById('uploadTab');
             const urlInputSection = document.getElementById('urlInputSection');
             const uploadInputSection = document.getElementById('uploadInputSection');
 
+            // Handle URL tab click
             urlTab.addEventListener('click', function() {
                 urlTab.classList.add('bg-white/20');
                 uploadTab.classList.remove('bg-white/20');
@@ -190,6 +222,7 @@
                 uploadInputSection.classList.add('hidden');
             });
 
+            // Handle Upload tab click
             uploadTab.addEventListener('click', function() {
                 uploadTab.classList.add('bg-white/20');
                 urlTab.classList.remove('bg-white/20');
@@ -197,7 +230,7 @@
                 urlInputSection.classList.add('hidden');
             });
 
-            // File upload handling
+            // --- File upload handling: Click, change, and preview logic ---
             const fileUpload = document.getElementById('videoUpload');
             const fileName = document.getElementById('fileName');
             const uploadContainer = document.querySelector('.file-upload');
@@ -207,6 +240,7 @@
                 fileUpload.click();
             });
 
+            // Show selected file name and preview video
             fileUpload.addEventListener('change', function(e) {
                 if (e.target.files.length > 0) {
                     const file = e.target.files[0];
@@ -225,7 +259,7 @@
                 }
             });
 
-            // Drag and drop
+            // --- Drag and drop file upload support ---
             uploadContainer.addEventListener('dragover', function(e) {
                 e.preventDefault();
                 uploadContainer.classList.add('bg-white/20');
@@ -246,7 +280,7 @@
                 }
             });
 
-            // Summary length slider
+            // --- Summary length slider: Update label as user slides ---
             const summaryLength = document.getElementById('summaryLength');
             const lengthValue = document.getElementById('lengthValue');
 
@@ -265,7 +299,7 @@
                 lengthValue.textContent = text;
             });
 
-            // Fetch video from URL
+            // --- Fetch video from URL: Show placeholder preview ---
             const fetchBtn = document.getElementById('fetchBtn');
             const videoUrl = document.getElementById('videoUrl');
 
@@ -290,85 +324,59 @@
                 `;
             });
 
-            // Generate summary
+            // --- Generate summary: Send request to backend and display result ---
             const summarizeBtn = document.getElementById('summarizeBtn');
             const summaryContent = document.getElementById('summaryContent');
             const copyBtn = document.getElementById('copyBtn');
 
             summarizeBtn.addEventListener('click', function() {
-                // Check if we have a video source
                 const url = videoUrl.value.trim();
                 const file = fileUpload.files[0];
+                const summaryType = document.getElementById('summaryType').value;
+                const length = parseInt(summaryLength.value);
 
                 if (!url && !file) {
                     alert('Please provide a video URL or upload a video file');
                     return;
                 }
 
-                // Show loading state
+                // Show loading spinner
                 summarizeBtn.innerHTML = '<div class="loading-spinner mr-2"></div> Processing...';
                 summarizeBtn.disabled = true;
 
-                // Simulate API call with timeout
-                setTimeout(() => {
-                    // Generate a mock summary based on selected options
-                    const summaryType = document.getElementById('summaryType').value;
-                    const length = parseInt(summaryLength.value);
+                // Prepare form data for backend
+                let formData = new FormData();
+                formData.append('summary_type', summaryType);
+                formData.append('summary_length', length);
 
-                    let summary = '';
-                    const videoTitle = file ? file.name : (url.includes('youtube') ? 'YouTube Video' : 'Online Video');
+                let endpoint = '';
+                if (file) {
+                    formData.append('file', file);
+                    endpoint = '/summarize/upload';
+                } else {
+                    formData.append('url', url);
+                    endpoint = '/summarize/url';
+                }
 
-                    if (summaryType === 'concise') {
-                        summary = `Concise summary of "${videoTitle}":\n\n`;
-                        summary += "This video discusses the main topic in a comprehensive way. The presenter covers several key points including the background information, current trends, and future predictions. The conclusion emphasizes the importance of understanding this topic in today's context.";
-                    }
-                    else if (summaryType === 'detailed') {
-                        summary = `Detailed summary of "${videoTitle}":\n\n`;
-                        summary += "The video begins with an introduction to the main subject, providing historical context and explaining why this topic is relevant today. Around the 5-minute mark, the presenter shifts focus to discuss the current state of affairs, highlighting three major developments that have shaped the landscape.\n\n";
-                        summary += "In the middle section, the video presents case studies and examples that illustrate the practical applications of the concepts being discussed. Statistical data is shown to support the arguments being made.\n\n";
-                        summary += "The final segment wraps up with predictions for the future and actionable advice for viewers who want to learn more or get involved. The presenter concludes by summarizing the key takeaways and encouraging further discussion.";
-                    }
-                    else if (summaryType === 'bullet') {
-                        summary = `Key points from "${videoTitle}":\n\n`;
-                        summary += "• Introduction to the main topic and its significance\n";
-                        summary += "• Historical background and context\n";
-                        summary += "• Current trends and developments (3 major points)\n";
-                        summary += "• Case studies demonstrating practical applications\n";
-                        summary += "• Statistical data supporting the arguments\n";
-                        summary += "• Future predictions and outlook\n";
-                        summary += "• Actionable advice for viewers\n";
-                        summary += "• Conclusion and key takeaways";
-                    }
-                    else if (summaryType === 'timeline') {
-                        summary = `Timeline summary of "${videoTitle}":\n\n`;
-                        summary += "00:00 - 02:30: Introduction and overview of the topic\n";
-                        summary += "02:30 - 07:45: Historical context and background information\n";
-                        summary += "07:45 - 15:20: Current state analysis with supporting data\n";
-                        summary += "15:20 - 22:10: Case studies and practical examples\n";
-                        summary += "22:10 - 28:00: Future predictions and recommendations\n";
-                        summary += "28:00 - End: Summary and concluding remarks";
-                    }
-
-                    // Adjust length
-                    if (length === 1) {
-                        summary = summary.split('\n')[0] + "...";
-                    } else if (length === 2) {
-                        summary = summary.split('\n\n')[0];
-                    } else if (length === 4) {
-                        summary += "\n\nAdditional details: The video also touches on related subtopics that provide more depth to the discussion. The presenter's expertise is evident through the nuanced analysis provided throughout.";
-                    } else if (length === 5) {
-                        summary += "\n\nExtended analysis: Beyond the main content, the video includes supplementary information in the form of references to other works, suggested reading materials, and links to additional resources for those who want to explore the topic further. The Q&A section addresses common questions and clarifies potential misunderstandings.";
-                    }
-
-                    summaryContent.innerHTML = `<div class="whitespace-pre-line">${summary}</div>`;
-
-                    // Reset button
+                // Send request to backend API
+                fetch(endpoint, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    summaryContent.innerHTML = `<div class="whitespace-pre-line">${data.summary}</div>`;
+                })
+                .catch(() => {
+                    summaryContent.innerHTML = '<p class="text-red-500">Error generating summary.</p>';
+                })
+                .finally(() => {
                     summarizeBtn.innerHTML = '<i class="fas fa-magic mr-2"></i> Generate Summary';
                     summarizeBtn.disabled = false;
-                }, 2000);
+                });
             });
 
-            // Copy summary
+            // --- Copy summary to clipboard ---
             copyBtn.addEventListener('click', function() {
                 const text = summaryContent.textContent;
                 if (!text || text.includes('Your video summary will appear here')) {
@@ -386,5 +394,6 @@
             });
         });
     </script>
+    <!-- ================= END MAIN SCRIPT ================= -->
 </body>
 </html>
